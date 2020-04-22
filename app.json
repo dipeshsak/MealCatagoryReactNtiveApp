@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "test8",
-    "slug": "test8",
+    "name": "MealApp React Native",
+    "slug": "mealapp-react-native",
     "platforms": [
       "ios",
       "android",
@@ -23,6 +23,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": ""
   }
 }
