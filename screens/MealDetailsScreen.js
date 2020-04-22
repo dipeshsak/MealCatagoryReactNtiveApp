@@ -1,21 +1,40 @@
 import React from 'react';
-import { StyleSheet, Text, View,Button } from 'react-native';
+import { StyleSheet, Text, View,Button,ScrollView,Image} from 'react-native';
 import { MEALS } from '../data/dummy-data'
 import { HeaderButtons,Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../components/HeaderButton'
 
+
+
+const ListItem =props =>{
+  return <View style={styles.listitem}>
+    <Text>{props.children}</Text>
+  </View>
+}
  const MealDetailsScreen =(props)=> {
    const mealId= props.navigation.getParam('mealId');
 
    const selectedMeal = MEALS.find(meal=>meal.id === mealId)
 
   return (
-    <View style={styles.container}>
-      <Text> {selectedMeal.title}</Text>
-      <Button title="Go back to Catagories!" onPress={()=>{
-        props.navigation.popToTop();
-      }} />
+    <ScrollView>
+      <Image source={{uri:selectedMeal.imageUrl}} style={styles.image} />
+    <View style={styles.details}>
+    <Text>{selectedMeal.duration}m</Text>
+    <Text>{selectedMeal.complexcity.toUpperCase()}</Text>
+    <Text>{selectedMeal.affordability.toUpperCase()}</Text>
     </View>
+     <Text style={styles.title}>Ingredients</Text>  
+     <View>
+     {selectedMeal.ingredients.map(ingredient=>(
+        <ListItem key={ingredient}>{ingredient}</ListItem>  
+     ))}
+     </View>
+     <Text style={styles.title}>Steps</Text>  
+     {selectedMeal.steps.map(step=>(
+       <ListItem key={step}>{step}</ListItem>
+     ))}
+    </ScrollView>
   );
 }
 
@@ -24,7 +43,7 @@ MealDetailsScreen.navigationOptions = (navigationData) =>{
   const selectedMeal = MEALS.find(meal=>meal.id === mealId) 
   return{
             headerTitle:selectedMeal.title,
-            headerRight:(
+            headerRight:()=>
               <HeaderButtons HeaderButtonComponent={HeaderButton} >
                 <Item 
                   title="Favourite"
@@ -34,19 +53,33 @@ MealDetailsScreen.navigationOptions = (navigationData) =>{
                   }}
                 />
               </HeaderButtons>
-            )
+            
 
         }
 }
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  image:{
+    width:'100%',
+    height:200
   },
+  details:{
+    flexDirection:'row',
+    padding:15,
+    justifyContent:'space-around'
+  },
+  title:{
+    fontSize:22,
+    textAlign:'center'
+  },
+  listitem:{
+   marginVertical:10,
+   marginHorizontal:20,
+   borderColor:'#ccc',
+   borderWidth:1,
+   padding:10
+  }
 });
 
 
