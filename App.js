@@ -7,9 +7,17 @@ import FilterScreen from './screens/FilterScreen'
 import MealDetailsScreen from './screens/MealDetailsScreen'
 import { AppLoading } from 'expo';
 import MealNavigator from './navigation/MealsNavigator'
+
+import { createStore, combineReducers } from 'redux'
+import { Provider } from 'react-redux'
+import mealsReducer from './store/reducers/meals'
 // import { enableScreen } from 'react-native-screens'
 
+const rootReducer= combineReducers({
+  meals:mealsReducer
+})
 
+const store = createStore(rootReducer)
 
 // enableScreen();
 // const fetchFonts = () => {
@@ -30,7 +38,7 @@ export default function App() {
   //   )
   // }
   return (
-    <MealNavigator/>
+    <Provider store={store}><MealNavigator/></Provider>
   );
 }
 
